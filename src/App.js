@@ -1,24 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+
+import './bootstrap.min.css';
+import Aires from './components/aires/Aires';
+import Dashboard from './components/dashboard/Dashboard';
+import Vendedores from './components/vendedores/Vendedores';
+import PaginaPrincipal from './components/paginaPrincipal/PaginaPrincipal';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* Página principal de productos */}
+        <Route path="/" element={<PaginaPrincipal />} />
+
+        {/* Rutas del dashboard con módulos */}
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="aires" element={<Aires />} />
+          <Route path="vendedores" element={<Vendedores />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
