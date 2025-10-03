@@ -6,6 +6,8 @@ import Aires from './components/aires/Aires';
 import Dashboard from './components/dashboard/Dashboard';
 import Vendedores from './components/vendedores/Vendedores';
 import PaginaPrincipal from './components/paginaPrincipal/PaginaPrincipal';
+import Registro from './components/registro/Registro';
+import Login from './components/login/Login';
 import Producto from './components/productos/Producto';
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
       <Routes>
         {/* Página principal de productos */}
         <Route path="/" element={<PaginaPrincipal />} />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/login" element={<Login />} />
         
         <Route path="/producto/:id" element={<Producto/>} />
 
