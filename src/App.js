@@ -9,6 +9,7 @@ import PaginaPrincipal from './components/paginaPrincipal/PaginaPrincipal';
 import Registro from './components/registro/Registro';
 import Login from './components/login/Login';
 import Producto from './components/productos/Producto';
+import Perfil from './components/perfil/Perfil';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         
         <Route path="/producto/:id" element={<Producto/>} />
+        <Route path="/perfil" element={<Perfil/>} />
 
         {/* Rutas del dashboard con módulos */}
         <Route path="/dashboard" element={<Dashboard />}>
