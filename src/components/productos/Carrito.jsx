@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTimes, FaPlus, FaMinus, FaTrash } from "react-icons/fa";
+import { FaTimes, FaPlus, FaMinus, FaTrash, FaCog, FaTools } from "react-icons/fa";
 import { useCarrito } from "../../context/CarritoContext";
 
 export function Carrito() {
@@ -11,7 +11,45 @@ export function Carrito() {
     eliminarDelCarrito,
     vaciarCarrito,
     totalPrecio,
+    agregarAlCarrito,
   } = useCarrito();
+
+  // Items de sugerencia
+  const itemsSugeridos = [
+    {
+      id: "service-mantencion",
+      nombre: "Servicio de Mantención",
+      descripcion: "Mantención preventiva anual",
+      precio: 25000,
+      tipo: "servicio",
+      iconType: "mantencion", 
+    },
+    {
+      id: "service-instalacion",
+      nombre: "Servicio de Instalación",
+      descripcion: "Instalación profesional por técnico especializado",
+      precio: 35000,
+      tipo: "servicio",
+      iconType: "instalacion", 
+    },
+  ];
+
+  // Función para obtener el icono basado en el tipo
+  const getIcon = (iconType) => {
+    switch (iconType) {
+      case "mantencion":
+        return <FaCog />;
+      case "instalacion":
+        return <FaTools />;
+      default:
+        return <FaCog />;
+    }
+  };
+
+  // Filtrar sugerencias que no estén ya en el carrito
+  const sugerenciasDisponibles = itemsSugeridos.filter(
+    (sugerencia) => !cartItems.some((item) => item.id === sugerencia.id)
+  );
 
   const handleUpdateQuantity = (id, newQuantity) => {
     actualizarCantidad(id, newQuantity);
@@ -19,6 +57,20 @@ export function Carrito() {
 
   const handleRemoveItem = (id) => {
     eliminarDelCarrito(id);
+  };
+
+  const handleAgregarSugerencia = (sugerencia) => {
+    const servicioLimpio = {
+      id: sugerencia.id,
+      nombre: sugerencia.nombre,
+      descripcion: sugerencia.descripcion,
+      precio: sugerencia.precio,
+      tipo: sugerencia.tipo,
+      iconType: sugerencia.iconType,
+      cantidad: 1,
+    };
+
+    agregarAlCarrito(servicioLimpio);
   };
 
   if (!isCarritoOpen) return null;
@@ -81,17 +133,27 @@ export function Carrito() {
             </div>
           ) : (
             <div className="p-3">
+              {/* Items del carrito */}
               {cartItems.map((item) => (
                 <div key={item.id} className="card mb-3 border-0 shadow-sm">
                   <div className="card-body p-3">
                     <div className="row align-items-center">
                       <div className="col-3">
-                        <img
-                          src={item.imagen || "/imagenes/placeholder.jpg"}
-                          alt={item.nombre}
-                          className="img-fluid rounded"
-                          style={{ height: "60px", objectFit: "cover" }}
-                        />
+                        {item.tipo === "servicio" ? (
+                          <div
+                            className="text-center text-primary fs-2 d-flex align-items-center justify-content-center"
+                            style={{ height: "60px" }}
+                          >
+                            {getIcon(item.iconType)}
+                          </div>
+                        ) : (
+                          <img
+                            src={item.imagen || "/imagenes/placeholder.jpg"}
+                            alt={item.nombre}
+                            className="img-fluid rounded"
+                            style={{ height: "60px", objectFit: "cover" }}
+                          />
+                        )}
                       </div>
                       <div className="col-6">
                         <h6 className="mb-1 fw-semibold">{item.nombre}</h6>
@@ -139,6 +201,55 @@ export function Carrito() {
                   </div>
                 </div>
               ))}
+
+              {/* Sección de Sugerencias */}
+              {sugerenciasDisponibles.length > 0 && (
+                <div className="mt-4">
+                  <div className="d-flex align-items-center mb-3">
+                    <hr className="flex-grow-1" />
+                    <span className="px-3 text-muted small fw-bold">
+                      SERVICIOS RECOMENDADOS
+                    </span>
+                    <hr className="flex-grow-1" />
+                  </div>
+
+                  {sugerenciasDisponibles.map((sugerencia) => (
+                    <div
+                      key={sugerencia.id}
+                      className="card mb-2 border-0 bg-light"
+                    >
+                      <div className="card-body p-3">
+                        <div className="row align-items-center">
+                          <div className="col-2">
+                            <div className="text-primary fs-4">
+                              {getIcon(sugerencia.iconType)}
+                            </div>
+                          </div>
+                          <div className="col-7">
+                            <h6 className="mb-1 fw-semibold text-truncate">
+                              {sugerencia.nombre}
+                            </h6>
+                            <p className="mb-0 text-muted small">
+                              {sugerencia.descripcion}
+                            </p>
+                            <p className="mb-0 fw-bold text-success">
+                              ${sugerencia.precio.toLocaleString("es-CL")}
+                            </p>
+                          </div>
+                          <div className="col-3">
+                            <button
+                              className="btn btn-outline-primary btn-sm w-100"
+                              onClick={() => handleAgregarSugerencia(sugerencia)}
+                            >
+                              <FaPlus size={14} className="me-1" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
