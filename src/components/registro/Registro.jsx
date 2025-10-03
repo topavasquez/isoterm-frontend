@@ -22,12 +22,16 @@ export default function Registro() {
         comprobarSesion()
     }, [])
 
+    const [loading, setLoading] = useState(false)
+
     const [form, setForm] = useState({
         nombre: '',
         apellido: '',
         correo: '',
         password: '',
-        confirmarPassword: ''
+        confirmarPassword: '',
+        telefono: '',
+        direccion: ''
     })
 
     const handleChange = (e) => {
@@ -37,9 +41,49 @@ export default function Registro() {
         })
     }
 
-    const registrarse = (e) => {
+    const registrarse = async (e) => {
         e.preventDefault()
         console.log(form)
+
+        if (Object.values(form).some(value => value.trim() === '')) {
+            alert('Por favor, complete todos los campos')
+            return
+        }
+
+        if (form.password !== form.confirmarPassword) {
+            alert('Las contraseñas no coinciden')
+            return
+        }
+
+        setLoading(true)
+
+        await fetch('http://localhost:3000/api/usuarios/cliente', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nombre: form.nombre,
+                apellido: form.apellido,
+                correo: form.correo,
+                password: form.password,
+                telefono: form.telefono,
+                direccion: form.direccion
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            localStorage.setItem('usuario', JSON.stringify(data));
+            setLoading(false)
+            alert('Usuario registrado con éxito');
+            navigate('/');
+        })
+        .catch(err => {
+            setLoading(false)
+            console.error('Error:', err);
+            alert('Error al registrar el usuario');
+        });
+
     }
 
     return (
@@ -97,12 +141,34 @@ export default function Registro() {
                         <input
                             type="password"
                             className="form-control"
-                            id="confirmarpassword"
+                            id="confirmarPassword"
                             value={form.confirmarPassword}
                             onChange={handleChange}
                             placeholder="Contraseña"
                         />
-                        <label htmlFor="confirmarpassword">Confirmar contraseña</label>
+                        <label htmlFor="confirmaPpassword">Confirmar contraseña</label>
+                    </div>
+                    <div className="form-floating mb-4">
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="direccion"
+                            value={form.direccion}
+                            onChange={handleChange}
+                            placeholder="Direccion"
+                        />
+                        <label htmlFor="direccion">Dirección</label>
+                    </div>
+                    <div className="form-floating mb-4">
+                        <input
+                            type="number"
+                            className="form-control"
+                            id="telefono"
+                            value={form.telefono}
+                            onChange={handleChange}
+                            placeholder="Telefono"
+                        />
+                        <label htmlFor="telefono">Teléfono</label>
                     </div>
                     <button className="btn btn-primary w-100 py-2" type="submit">
                         Crear cuenta

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './dashboard.css'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { CiLogout } from "react-icons/ci";
@@ -6,6 +6,22 @@ import { CiLogout } from "react-icons/ci";
 export default function Dashboard() {
 
     const navigate = useNavigate();
+
+    const comprobarSesion = () => {
+        const usuario = localStorage.getItem('usuario');
+        if (usuario) {
+            const usuarioObj = JSON.parse(usuario);
+            if (usuarioObj.rol === 'admin' || usuarioObj.rol === 'vendedor') {
+                navigate('/dashboard');
+            } else {
+                navigate('/');
+            }
+        }
+    }
+
+    useEffect(() => {
+        comprobarSesion()
+    }, [])
 
     const logout = () => {
         localStorage.removeItem('usuario');
@@ -25,7 +41,7 @@ export default function Dashboard() {
                 </Link>
 
                 <button onClick={logout} className="btn btn-dark text-white d-flex align-items-center gap-2 me-3">
-                    <CiLogout color='white'/>
+                    <CiLogout color='white' />
                 </button>
             </header>
 
