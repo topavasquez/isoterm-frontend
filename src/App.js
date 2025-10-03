@@ -8,6 +8,7 @@ import Vendedores from './components/vendedores/Vendedores';
 import PaginaPrincipal from './components/paginaPrincipal/PaginaPrincipal';
 import Registro from './components/registro/Registro';
 import Login from './components/login/Login';
+import Producto from './components/productos/Producto';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route path="/" element={<PaginaPrincipal />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/login" element={<Login />} />
+        
+        <Route path="/producto/:id" element={<Producto/>} />
 
         {/* Rutas del dashboard con módulos */}
         <Route path="/dashboard" element={<Dashboard />}>
