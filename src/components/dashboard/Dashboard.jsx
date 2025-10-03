@@ -1,56 +1,57 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './dashboard.css'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { CiLogout } from "react-icons/ci";
 
-export default function dashboard() {
+export default function Dashboard() {
+
+    const navigate = useNavigate();
+
+    const comprobarSesion = () => {
+        const usuario = localStorage.getItem('usuario');
+        if (usuario) {
+            const usuarioObj = JSON.parse(usuario);
+            if (usuarioObj.rol === 'admin' || usuarioObj.rol === 'vendedor') {
+                navigate('/dashboard');
+            } else {
+                navigate('/');
+            }
+        }
+    }
+
+    useEffect(() => {
+        comprobarSesion()
+    }, [])
+
+    const logout = () => {
+        localStorage.removeItem('usuario');
+        navigate('/')
+    }
 
     return (
-        <>
+        <div className='h-100'>
             <header
                 className="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow"
             >
                 <Link
                     to={"/dashboard"}
-                    class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white"
+                    className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white"
                     href="#"
                 > Isoterm
                 </Link>
 
-                <ul className="navbar-nav flex-row d-md-none">
-                    <li className="nav-item text-nowrap">
-                        <button
-                            className="nav-link px-3 text-white"
-                            type="button"
-                        >
-
-                        </button>
-                    </li>
-                    <li className="nav-item text-nowrap">
-                        <button
-                            className="nav-link px-3 text-white"
-                            type="button"
-                        >
-
-                        </button>
-                    </li>
-                </ul>
-                <div id="navbarSearch" className="navbar-search w-100 collapse">
-                    <input
-                        className="form-control w-100 rounded-0 border-0"
-                        type="text"
-                        placeholder="Search"
-                        aria-label="Search"
-                    />
-                </div>
+                <button onClick={logout} className="btn btn-dark text-white d-flex align-items-center gap-2 me-3">
+                    <CiLogout color='white' />
+                </button>
             </header>
-            <div className="container-fluid">
-                <div className="row">
+
+            <div className="h-100">
+                <div className="row h-100">
                     <div
                         className="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary"
                     >
                         <div
                             className="offcanvas-md offcanvas-end bg-body-tertiary"
-                            tabindex="-1"
                             id="sidebarMenu"
                             aria-labelledby="sidebarMenuLabel"
                         >
@@ -99,6 +100,6 @@ export default function dashboard() {
                     </main>
                 </div>
             </div>
-        </>
+        </div>
     )
 }

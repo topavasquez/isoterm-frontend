@@ -1,8 +1,10 @@
+
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import aire from "../../assets/aireacondicionado.jpg";
 import { useCarrito } from "../../context/CarritoContext";
+import Reseñas from './reseñas/Reseñas';
 
 export default function Producto() {
   const { id } = useParams();
@@ -10,7 +12,19 @@ export default function Producto() {
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const { agregarAlCarrito, abrirCarrito, mostrarEstadoCarrito } = useCarrito();
+  const [usuario, setUsuario] = useState(null);
+  const [reseñas, setReseñas] = useState([]);
+
+  useEffect(() => {
+    const usuarioLogueado = localStorage.getItem('usuario');
+    if (usuarioLogueado) {
+        const usuarioObj = JSON.parse(usuarioLogueado);
+        setUsuario(usuarioObj);
+    }
+  }, []);
+
 
   const fetchProducto = async () => {
     try {
@@ -29,8 +43,23 @@ export default function Producto() {
     }
   };
 
+  const fetchReseñas = async () => {
+    try {
+        const response = await fetch(`http://localhost:3000/api/comentarios/aire/${id}`);
+        const data = await response.json();
+        setReseñas(data);
+    } catch (error) {
+        console.error('Error fetching reseñas: ', error);
+    }
+  }
+
+  const handleReseñaEnviada = () => {
+    fetchReseñas();
+  };
+
   useEffect(() => {
     fetchProducto();
+    fetchReseñas();
   }, [id]);
 
   const handleAgregarAlCarrito = () => {
@@ -126,6 +155,7 @@ export default function Producto() {
                     style={{ minHeight: "300px" }}
                   >
                     <i className="fas fa-snowflake fa-8x text-primary mb-3"></i>
+                  <div className="bg-light rounded shadow p-5" style={{ minHeight: '300px' }}>
                     <h5 className="text-muted">Imagen no disponible</h5>
                   </div>
                 )}
@@ -159,7 +189,6 @@ export default function Producto() {
             <div className="card shadow-sm h-100">
               <div className="card-header bg-primary text-white">
                 <h3 className="card-title mb-0">
-                  <i className="fas fa-cogs me-2"></i>
                   Especificaciones Técnicas
                 </h3>
               </div>
@@ -167,9 +196,6 @@ export default function Producto() {
                 <div className="row g-4">
                   <div className="col-md-6">
                     <div className="d-flex align-items-center p-3 bg-light rounded">
-                      <div className="flex-shrink-0">
-                        <i className="fas fa-thermometer-half fa-2x text-primary"></i>
-                      </div>
                       <div className="flex-grow-1 ms-3">
                         <h6 className="mb-1">Capacidad BTU</h6>
                         <h4 className="mb-0 text-primary">{producto.btu}</h4>
@@ -179,9 +205,6 @@ export default function Producto() {
 
                   <div className="col-md-6">
                     <div className="d-flex align-items-center p-3 bg-light rounded">
-                      <div className="flex-shrink-0">
-                        <i className="fas fa-home fa-2x text-success"></i>
-                      </div>
                       <div className="flex-grow-1 ms-3">
                         <h6 className="mb-1">Alcance</h6>
                         <h4 className="mb-0 text-success">
@@ -215,9 +238,6 @@ export default function Producto() {
 
                   <div className="col-md-6">
                     <div className="d-flex align-items-center p-3 bg-light rounded">
-                      <div className="flex-shrink-0">
-                        <i className="fas fa-tag fa-2x text-warning"></i>
-                      </div>
                       <div className="flex-grow-1 ms-3">
                         <h6 className="mb-1">Marca</h6>
                         <h5 className="mb-0 text-dark">{producto.marca}</h5>
@@ -234,7 +254,6 @@ export default function Producto() {
             <div className="card shadow-sm sticky-top" style={{ top: "20px" }}>
               <div className="card-header bg-success text-white text-center">
                 <h3 className="card-title mb-0">
-                  <i className="fas fa-dollar-sign me-2"></i>
                   Precio
                 </h3>
               </div>
@@ -246,17 +265,15 @@ export default function Producto() {
                   <small className="text-muted">Precio final</small>
                 </div>
 
-                <div className="d-grid gap-2">
-                  <button
-                    className="btn btn-success btn-lg"
-                    onClick={handleAgregarAlCarrito}
-                  >
-                    <i className="fas fa-shopping-cart me-2"></i>
-                    Agregar al carrito
-                  </button>
+                <button
+  className="btn btn-success btn-lg"
+  onClick={handleAgregarAlCarrito}
+>
+  <i className="fas fa-shopping-cart me-2"></i>
+  Agregar al carrito
+</button>
 
                   <button className="btn btn-outline-primary">
-                    <i className="fas fa-phone me-2"></i>
                     Contactar vendedor
                   </button>
                 </div>
@@ -325,6 +342,12 @@ export default function Producto() {
                 <h5 className="mb-4">Reseñas de clientes</h5>
               </div>
             </div>
+            <Reseñas 
+              productoId={id}
+              usuario={usuario}
+              reseñas={reseñas}
+              onReseñaEnviada={handleReseñaEnviada}
+            />
           </div>
         </div>
       </div>
