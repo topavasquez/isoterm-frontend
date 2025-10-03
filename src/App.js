@@ -1,6 +1,5 @@
-import './App.css';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-
+import "./App.css";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import './bootstrap.min.css';
 import Aires from './components/aires/Aires';
 import Dashboard from './components/dashboard/Dashboard';
@@ -9,25 +8,28 @@ import PaginaPrincipal from './components/paginaPrincipal/PaginaPrincipal';
 import Registro from './components/registro/Registro';
 import Login from './components/login/Login';
 import Producto from './components/productos/Producto';
+import Header from "./components/Header";
+import { CarritoProvider } from "./context/CarritoContext";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Página principal de productos */}
+    <CarritoProvider>
+      <Router>
+        <Header />
+        <Routes>
         <Route path="/" element={<PaginaPrincipal />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/login" element={<Login />} />
-        
         <Route path="/producto/:id" element={<Producto/>} />
 
-        {/* Rutas del dashboard con módulos */}
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route path="aires" element={<Aires />} />
-          <Route path="vendedores" element={<Vendedores />} />
-        </Route>
-      </Routes>
-    </Router>
+          {/* Rutas del dashboard con módulos */}
+           <Route path="/dashboard" element={<Dashboard />}>
+            <Route path="aires" element={<Aires />} />
+            <Route path="vendedores" element={<Vendedores />} />
+          </Route>
+        </Routes>
+      </Router>
+    </CarritoProvider>
   );
 }
 
