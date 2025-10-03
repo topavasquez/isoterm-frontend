@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaComments } from 'react-icons/fa';
 
 export default function Reseñas({ 
   productoId, 
@@ -62,7 +63,8 @@ export default function Reseñas({
 
   return (
     <div className="card shadow-sm">
-      <div className="card-header bg-info text-white">
+      <div className="card-header bg-info text-white d-flex align-items-center">
+        <FaComments style={{ marginRight: '12px', width: '1.5em', height: '1.5em' }} />
         <h3 className="card-title mb-0">
           Opiniones de clientes
         </h3>

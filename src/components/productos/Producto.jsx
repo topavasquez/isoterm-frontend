@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import aire from "../../assets/aireacondicionado.jpg";
 import { useCarrito } from "../../context/CarritoContext";
 import Reseñas from "./reseñas/Reseñas";
+import { FaShoppingCart, FaTools } from "react-icons/fa";
 
 export default function Producto() {
   const { id } = useParams();
@@ -153,7 +154,8 @@ export default function Producto() {
           {/* Especificaciones técnicas */}
           <div className="col-lg-8">
             <div className="card shadow-sm h-100">
-              <div className="card-header bg-primary text-white">
+              <div className="card-header bg-primary text-white d-flex align-items-center">
+                <FaTools style={{ marginRight: '12px', width: '1.5em', height: '1.5em' }} />
                 <h3 className="card-title mb-0">Especificaciones Técnicas</h3>
               </div>
               <div className="card-body">
@@ -216,31 +218,18 @@ export default function Producto() {
               <div className="card-header bg-success text-white text-center">
                 <h3 className="card-title mb-0">Precio</h3>
               </div>
-              <div className="card-body text-center">
+              <div className="card-body text-center" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <h1 className="display-4 text-success fw-bold mb-3">
                   ${Number(producto.precio).toLocaleString()}
                 </h1>
                 <button
                   className="btn btn-success btn-lg mb-2"
                   onClick={handleAgregarAlCarrito}
+                  style={{ width: "80%" }}
                 >
-                  <i className="fas fa-shopping-cart me-2"></i> Agregar al
+                  <FaShoppingCart style={{ marginRight: '8px', width: '1.5em', height: '1.5em' }} /> Agregar al
                   carrito
                 </button>
-                <button className="btn btn-outline-primary mb-2">
-                  Contactar vendedor
-                </button>
-                <hr />
-                <small className="text-muted text-start d-block">
-                  <i className="fas fa-truck me-1"></i> Envío gratis a todo el
-                  país
-                  <br />
-                  <i className="fas fa-shield-alt me-1"></i> Garantía oficial de
-                  2 años
-                  <br />
-                  <i className="fas fa-tools me-1"></i> Instalación profesional
-                  incluida
-                </small>
               </div>
             </div>
           </div>
@@ -249,45 +238,12 @@ export default function Producto() {
         {/* Reseñas */}
         <div className="row mt-5">
           <div className="col-12">
-            <div className="card shadow-sm">
-              <div className="card-header bg-info text-white">
-                <h3 className="card-title mb-0">
-                  <i className="fas fa-comments me-2"></i> Opiniones de clientes
-                </h3>
-              </div>
-              <div className="card-body">
-                <h5 className="mb-3">Escribir una reseña</h5>
-                <form>
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Tu nombre"
-                      />
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <textarea
-                      className="form-control"
-                      rows="4"
-                      placeholder="Comparte tu experiencia..."
-                    ></textarea>
-                  </div>
-                  <button type="submit" className="btn btn-primary">
-                    Enviar reseña
-                  </button>
-                </form>
-                <hr />
-                <h5 className="mb-4">Reseñas de clientes</h5>
                 <Reseñas
                   productoId={id}
                   usuario={usuario}
                   reseñas={reseñas}
                   onReseñaEnviada={handleReseñaEnviada}
                 />
-              </div>
-            </div>
           </div>
         </div>
       </div>
