@@ -3,6 +3,7 @@ import { FaShoppingCart, FaBars } from "react-icons/fa";
 import React from "react";
 import { Carrito } from "./productos/Carrito";
 import { useCarrito } from "../context/CarritoContext";
+import  logo from "../assets/logooficial.png";
 
 function Header() {
   const {
@@ -18,18 +19,21 @@ function Header() {
   return (
     <header className="bg-primary text-white shadow-sm">
       <div className="container-fluid">
-        <div className="row align-items-center py-3">
+        <div className="row align-items-center">
           <div className="col-auto">
             <div className="d-flex align-items-center">
-              <div className="d-flex align-items-center justify-content-center text-dark fw-bold me-3">
+              <Link to="/" className="text-white text-decoration-none">
+              <div className="d-flex align-items-center justify-content-center text-dark fw-bold">
                 <img
-                  src="./imagenes/logo.png"
+                  src={logo}
                   alt="Logo"
-                  style={{ width: "50px", height: "50px" }}
+                  style={{ 
+                    height: "100px", 
+                    width: "auto",
+                    objectFit: "contain"
+                  }}
                 />
               </div>
-              <Link to="/" className="text-white text-decoration-none">
-                <h4 className="mb-0 fw-bold">IsotermChile</h4>
               </Link>
             </div>
           </div>
