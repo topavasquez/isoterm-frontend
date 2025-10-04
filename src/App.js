@@ -11,7 +11,7 @@ import Producto from './components/productos/Producto';
 import Perfil from './components/perfil/Perfil';
 import Header from "./components/Header";
 import { CarritoProvider } from "./context/CarritoContext";
-import Perfil from "./components/Perfil";
+
 
 
 function App() {
