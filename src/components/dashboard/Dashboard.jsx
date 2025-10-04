@@ -91,6 +91,14 @@ export default function Dashboard() {
                                             Vendedores
                                         </Link>
                                     </li>
+                                    <li className="nav-item">
+                                         <Link
+                                         to="/perfil"
+                                        className="nav-link d-flex align-items-center gap-2">
+                                            Perfil de Usuario
+                                        </Link>
+                                    </li>
+
                                 </ul>
                             </div>
                         </div>

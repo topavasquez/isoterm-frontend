@@ -11,6 +11,8 @@ import Producto from './components/productos/Producto';
 import Perfil from './components/perfil/Perfil';
 import Header from "./components/Header";
 import { CarritoProvider } from "./context/CarritoContext";
+import Perfil from "./pages/Perfil";
+
 
 function App() {
   return (
@@ -22,7 +24,7 @@ function App() {
         <Route path="/registro" element={<Registro />} />
         <Route path="/login" element={<Login />} />
         <Route path="/producto/:id" element={<Producto/>} />
-        <Route path="/perfil" element={<Perfil/>} />
+        <Route path="/perfil" element={<Perfil />} />
 
           {/* Rutas del dashboard con módulos */}
            <Route path="/dashboard" element={<Dashboard />}>
