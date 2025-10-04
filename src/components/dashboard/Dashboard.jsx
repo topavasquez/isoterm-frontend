@@ -23,11 +23,6 @@ export default function Dashboard() {
         comprobarSesion()
     }, [])
 
-    const logout = () => {
-        localStorage.removeItem('usuario');
-        navigate('/')
-    }
-
     return (
         <div className='h-100'>
             <header
@@ -39,10 +34,6 @@ export default function Dashboard() {
                     href="#"
                 > Isoterm
                 </Link>
-
-                <button onClick={logout} className="btn btn-dark text-white d-flex align-items-center gap-2 me-3">
-                    <CiLogout color='white' />
-                </button>
             </header>
 
             <div className="h-100">
@@ -89,13 +80,6 @@ export default function Dashboard() {
                                             href="#">
 
                                             Vendedores
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                         <Link
-                                         to="/perfil"
-                                        className="nav-link d-flex align-items-center gap-2">
-                                            Perfil de Usuario
                                         </Link>
                                     </li>
 

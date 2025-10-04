@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import './login.css'
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Login() {
+
+    const { usuario, setUsuario, logout } = useAuth();
 
     const navigate = useNavigate();
 
     const comprobarSesion = () => {
-        const usuario = localStorage.getItem('usuario');
         if (usuario) {
             const usuarioObj = JSON.parse(usuario);
             if (usuarioObj.rol === 'admin' || usuarioObj.rol === 'vendedor') {
@@ -66,6 +68,7 @@ export default function Login() {
             console.log('usuario', data.usuario)
 
             const usuario = data.usuario;
+            setUsuario(usuario)
             localStorage.setItem('usuario', JSON.stringify(usuario));
 
             setLoding(false)

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import './registro.css'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext';
 
 export default function Registro() {
 
+    const { usuario } = useAuth();
     const navigate = useNavigate();
 
     const comprobarSesion = () => {
-        const usuario = localStorage.getItem('usuario');
         if (usuario) {
             const usuarioObj = JSON.parse(usuario);
             if (usuarioObj.rol === 'admin' || usuarioObj.rol === 'vendedor') {

@@ -11,29 +11,30 @@ import Producto from './components/productos/Producto';
 import Perfil from './components/perfil/Perfil';
 import Header from "./components/Header";
 import { CarritoProvider } from "./context/CarritoContext";
-import Perfil from "./components/Perfil";
-
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <CarritoProvider>
-      <Router>
-        <Header />
-        <Routes>
-        <Route path="/" element={<PaginaPrincipal />} />
-        <Route path="/registro" element={<Registro />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/producto/:id" element={<Producto/>} />
-        <Route path="/perfil" element={<Perfil />} />
+    <AuthProvider>
+      <CarritoProvider>
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/" element={<PaginaPrincipal />} />
+            <Route path="/registro" element={<Registro />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/producto/:id" element={<Producto />} />
+            <Route path="/perfil" element={<Perfil />} />
 
-          {/* Rutas del dashboard con módulos */}
-           <Route path="/dashboard" element={<Dashboard />}>
-            <Route path="aires" element={<Aires />} />
-            <Route path="vendedores" element={<Vendedores />} />
-          </Route>
-        </Routes>
-      </Router>
-    </CarritoProvider>
+            {/* Rutas del dashboard con módulos */}
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="aires" element={<Aires />} />
+              <Route path="vendedores" element={<Vendedores />} />
+            </Route>
+          </Routes>
+        </Router>
+      </CarritoProvider>
+    </AuthProvider>
   );
 }
 
