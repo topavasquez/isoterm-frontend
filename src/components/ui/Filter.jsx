@@ -104,14 +104,17 @@ export default function Filter({
                 onChange={handleBusquedaChange}
                 onFocus={() => setShowSuggestions(suggestions.length > 0)}
               />
-              <button
-                className="btn btn-danger"
-                type="button"
-                style={{ height: "56px" }}
-                onClick={limpiarBusqueda}
-              >
-                <FaTrashAlt />
-              </button>
+              {busqueda && (
+                <button
+                  className="btn btn-danger"
+                  type="button"
+                  style={{ height: "56px" }}
+                  onClick={limpiarBusqueda}
+                  title="Limpiar búsqueda"
+                >
+                  <FaTrashAlt />
+                </button>
+              )}
               <button
                 className="btn btn-primary"
                 type="button"
