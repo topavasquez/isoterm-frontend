@@ -1,10 +1,13 @@
 import React from "react";
 import { Cards } from "../ui/Cards";
+import Filter from "../ui/Filter";
 
 export default function PaginaPrincipal() {
   const [productos, setProductos] = React.useState([]);
+  const [productosFiltrados, setProductosFiltrados] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [clima, setClima] = React.useState(null);
+  const [busqueda, setBusqueda] = React.useState("");
 
   const fetchProductos = async () => {
     try {
@@ -12,6 +15,7 @@ export default function PaginaPrincipal() {
       const response = await fetch("http://localhost:3000/api/aires/");
       const data = await response.json();
       setProductos(data);
+      setProductosFiltrados(data);
     } catch (error) {
       console.error("Error fetching productos: ", error);
     } finally {
@@ -72,6 +76,11 @@ export default function PaginaPrincipal() {
     }
   };
 
+  const limpiarBusqueda = () => {
+    setBusqueda("");
+    setProductosFiltrados(productos);
+  };
+
   return (
     <div className="container-fluid p-0">
       {/* Hero Banner Section */}
@@ -123,6 +132,15 @@ export default function PaginaPrincipal() {
           </div>
         </div>
 
+        <Filter
+          productos={productos}
+          productosFiltrados={productosFiltrados}
+          setProductosFiltrados={setProductosFiltrados}
+          busqueda={busqueda}
+          setBusqueda={setBusqueda}
+          limpiarBusqueda={limpiarBusqueda}
+        />
+
         {loading ? (
           <div className="row">
             <div className="col-12 text-center">
@@ -134,8 +152,8 @@ export default function PaginaPrincipal() {
           </div>
         ) : (
           <div className="row g-4">
-            {productos.length > 0 ? (
-              productos.map((producto) => (
+            {productosFiltrados.length > 0 ? (
+              productosFiltrados.map((producto) => (
                 <div
                   key={producto.id_aire_acondicionado}
                   className="col-lg-4 col-md-6 col-sm-12"
@@ -151,6 +169,18 @@ export default function PaginaPrincipal() {
                   />
                 </div>
               ))
+            ) : busqueda ? (
+              <div className="col-12 text-center">
+                <div className="alert alert-warning">
+                  <h4>No se encontraron resultados</h4>
+                  <p>
+                    No hay productos que coincidan con tu búsqueda "{busqueda}".
+                  </p>
+                  <button className="btn btn-primary" onClick={limpiarBusqueda}>
+                    Ver todos los productos
+                  </button>
+                </div>
+              </div>
             ) : (
               <div className="col-12 text-center">
                 <div className="alert alert-info">
