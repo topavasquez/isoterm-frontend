@@ -1,6 +1,8 @@
 import React from "react";
 import { Cards } from "../ui/Cards";
 import Filter from "../ui/Filter";
+import Clientes from "./Clientes";
+import Footer from "./Footer";
 
 export default function PaginaPrincipal() {
   const [productos, setProductos] = React.useState([]);
@@ -61,12 +63,12 @@ export default function PaginaPrincipal() {
     if (temp >= 25) {
       return {
         mensaje: "¡Perfecta para usar aire acondicionado!",
-        color: "bg-danger",
+        color: "bg-primary",
       };
     } else if (temp >= 15) {
       return {
         mensaje: "Clima agradable en Chillán",
-        color: "bg-warning",
+        color: "bg-primary",
       };
     } else {
       return {
@@ -195,31 +197,41 @@ export default function PaginaPrincipal() {
 
       {clima && (
         <div
-          className={`text-white text-center my-5 ${
-            getClimaMensaje(clima.temp).color
-          }`}
+          className="row text-white position-relative text-center my-5"
           style={{
-            paddingTop: "8rem",
-            paddingBottom: "8rem",
-            fontSize: "1.5rem",
-            fontWeight: "bold",
+            minHeight: "350px",
+            backgroundImage: "url(/imagenes/textura1.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
           }}
         >
-          Chillán, {clima.temp.toFixed(1)}°C —{" "}
-          {getClimaMensaje(clima.temp).mensaje}
+          <div
+            className="position-absolute top-0 start-0 w-100 h-100 bg-primary"
+            style={{ opacity: 0.7 }}
+          ></div>
+
+          <div
+            className="col-12 d-flex align-items-center justify-content-center position-relative"
+            style={{
+              zIndex: 2,
+              paddingTop: "8rem",
+              paddingBottom: "8rem",
+              fontSize: "1.5rem",
+              fontWeight: "bold",
+            }}
+          >
+            Chillán, {clima.temp.toFixed(1)}°C —{" "}
+            {getClimaMensaje(clima.temp).mensaje}
+          </div>
         </div>
       )}
 
+      {/* Sección de Clientes */}
+      <Clientes />
+
       {/* Footer */}
-      <footer className="bg-dark text-white mt-5 py-4">
-        <div className="container">
-          <div className="row">
-            <div className="col-12 text-center">
-              <p>&copy; 2025 Isoterm. Todos los derechos reservados.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
