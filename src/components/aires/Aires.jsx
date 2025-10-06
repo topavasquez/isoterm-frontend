@@ -225,7 +225,7 @@ export default function Aires() {
                                             <td>{aire.marca}</td>
                                             <td>{aire.stock}</td>
                                             <td>{aire.precio}</td>
-                                            <td>aaaa</td>
+                                            <td>{aire.disponible ? 'Disponible' : 'No disponbile' }</td>
                                             <td className='d-flex gap-2'>
                                                 <button
                                                     className="btn btn-primary btn-sm"
