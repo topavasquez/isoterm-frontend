@@ -3,29 +3,21 @@ import { FaShoppingCart } from "react-icons/fa";
 import React, { useEffect } from "react";
 import { Carrito } from "./productos/Carrito";
 import { useCarrito } from "../context/CarritoContext";
-import logo from "../assets/logooficial.png";
+import logo from "../assets/logo.png";
 import { CiLogout } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 
 function Header() {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const { usuario, logout } = useAuth();
 
-  const {
-    usuario,
-    logout
-  } = useAuth()
-
-
-  const {
-    totalItems,
-    abrirCarrito,
-  } = useCarrito();
+  const { totalItems, abrirCarrito } = useCarrito();
 
   useEffect(() => {
-    console.log()
-  }, [usuario])
+    console.log();
+  }, [usuario]);
 
   return (
     <header className="bg-primary text-white shadow-sm">
@@ -41,8 +33,10 @@ function Header() {
                     alt="Logo"
                     style={{
                       height: "100px",
-                      width: "auto",
+                      width: "80px",
                       objectFit: "contain",
+                      marginLeft: "20px",
+                      marginBottom: "10px",
                     }}
                   />
                 </div>
@@ -94,16 +88,32 @@ function Header() {
             ) : (
               <>
                 <div className="d-flex align-items-center gap-2 bg-white bg-opacity-25 rounded-pill px-3 py-1 me-3">
-                  <Link to="/perfil" className="btn btn-link p-0 m-0 text-white" title="Perfil">
-                    <FaUser className="me-2" color="#fff" size={18} style={{ background: "#0d6efd", borderRadius: "50%", padding: "3px" }} />
+                  <Link
+                    to="/perfil"
+                    className="btn btn-link p-0 m-0 text-white"
+                    title="Perfil"
+                  >
+                    <FaUser
+                      className="me-2"
+                      color="#fff"
+                      size={18}
+                      style={{
+                        background: "#0d6efd",
+                        borderRadius: "50%",
+                        padding: "3px",
+                      }}
+                    />
                   </Link>
-                  <span className="fw-semibold text-white" style={{ fontSize: "1rem" }}>
+                  <span
+                    className="fw-semibold text-white"
+                    style={{ fontSize: "1rem" }}
+                  >
                     Hola, {usuario.nombre}
                   </span>
                   <button
                     onClick={() => {
                       logout();
-                      navigate('/');
+                      navigate("/");
                     }}
                     className="btn btn-link p-0 m-0 ms-2 text-white"
                     title="Cerrar sesión"
@@ -115,8 +125,9 @@ function Header() {
               </>
             )}
 
-            {
-              usuario && usuario.rol !== 'admin' && usuario.rol !== 'vendedor' && (
+            {usuario &&
+              usuario.rol !== "admin" &&
+              usuario.rol !== "vendedor" && (
                 <button
                   className="btn btn-light bg-opacity-75 position-relative d-flex align-items-center gap-2"
                   onClick={abrirCarrito}
@@ -128,12 +139,13 @@ function Header() {
                       style={{ fontSize: "0.75rem" }}
                     >
                       {totalItems}
-                      <span className="visually-hidden">items en el carrito</span>
+                      <span className="visually-hidden">
+                        items en el carrito
+                      </span>
                     </span>
                   )}
                 </button>
-              )
-            }
+              )}
           </div>
         </div>
       </div>

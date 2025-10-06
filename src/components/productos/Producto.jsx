@@ -127,7 +127,7 @@ export default function Producto() {
       </div>
 
       {/* Imagen producto */}
-      <div className="bg-white py-5 mb-4">
+      <div className="bg-light py-5 mb-4">
         <div className="container text-center">
           {producto.imagen ? (
             <img
@@ -155,7 +155,13 @@ export default function Producto() {
           <div className="col-lg-8">
             <div className="card shadow-sm h-100">
               <div className="card-header bg-primary text-white d-flex align-items-center">
-                <FaTools style={{ marginRight: '12px', width: '1.5em', height: '1.5em' }} />
+                <FaTools
+                  style={{
+                    marginRight: "12px",
+                    width: "1.5em",
+                    height: "1.5em",
+                  }}
+                />
                 <h3 className="card-title mb-0">Especificaciones Técnicas</h3>
               </div>
               <div className="card-body">
@@ -218,7 +224,14 @@ export default function Producto() {
               <div className="card-header bg-success text-white text-center">
                 <h3 className="card-title mb-0">Precio</h3>
               </div>
-              <div className="card-body text-center" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div
+                className="card-body text-center"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
                 <h1 className="display-4 text-success fw-bold mb-3">
                   ${Number(producto.precio).toLocaleString()}
                 </h1>
@@ -227,8 +240,14 @@ export default function Producto() {
                   onClick={handleAgregarAlCarrito}
                   style={{ width: "80%" }}
                 >
-                  <FaShoppingCart style={{ marginRight: '8px', width: '1.5em', height: '1.5em' }} /> Agregar al
-                  carrito
+                  <FaShoppingCart
+                    style={{
+                      marginRight: "8px",
+                      width: "1.5em",
+                      height: "1.5em",
+                    }}
+                  />{" "}
+                  Agregar al carrito
                 </button>
               </div>
             </div>
@@ -238,12 +257,12 @@ export default function Producto() {
         {/* Reseñas */}
         <div className="row mt-5">
           <div className="col-12">
-                <Reseñas
-                  productoId={id}
-                  usuario={usuario}
-                  reseñas={reseñas}
-                  onReseñaEnviada={handleReseñaEnviada}
-                />
+            <Reseñas
+              productoId={id}
+              usuario={usuario}
+              reseñas={reseñas}
+              onReseñaEnviada={handleReseñaEnviada}
+            />
           </div>
         </div>
       </div>
